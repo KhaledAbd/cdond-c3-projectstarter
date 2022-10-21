@@ -498,7 +498,7 @@ jobs:
       # Here's where you will add some code to rollback on failure  
       - revert-migrations
       - destroy-environment  
-cleanup:
+  cleanup:
     docker:
       # Docker image here
       - image: python:3.7-alpine3.11 
@@ -506,10 +506,10 @@ cleanup:
       # Checkout code from git
       - checkout
       - run:
-        name: Install dependencies
-        command: |
-          # your code here
-          apk add --update curl npm  && pip3 install --upgrade pip && pip3 install awscli
+          name: Install dependencies
+          command: |
+            # your code here
+            apk add --update curl npm  && pip3 install --upgrade pip && pip3 install awscli
       
       - run:
           name: Get old stack workflow id
@@ -539,7 +539,6 @@ cleanup:
                 echo "--------------Cleanup Success----------------"
               fi
       - revert-migrations
-            
 
 workflows:
   default:
