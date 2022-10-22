@@ -306,6 +306,7 @@ jobs:
           name: Install dependencies
           command: |
             apk update
+            apk add --update build-essential
             apk add --update ansible
             apk add --update npm nodejs
             apk add --update tar gzip 
