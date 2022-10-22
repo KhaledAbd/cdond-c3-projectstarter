@@ -1,41 +1,48 @@
-- name: Create app dir
-  become: yes
+---
+- name: "update apt packages"
+  become: true
+  become_method: sudo
+  apt:
+    update_cache: yes
+
+- name: "Remove dependencies that are no longer required"
+  become: true
+  apt:
+    autoremove: yes
+
+- name: "upgrade packages."
+  become: true
+  apt:
+    upgrade: "yes"
+
+- name: create backend directory
+  become: true
   file:
-    path: /home/ubuntu/app
+    path: /home/ubuntu/backend
     state: directory
+    mode: 0755
 
-- name: "Copy backend build folder to EC2"
-  become: yes
-  unarchive:
-    src: /tmp/workspace/backend.tar.gz
-    dest: /home/ubuntu/app/
-    owner: ubuntu
-
-- name: "Copy package.json to EC2"
-  become: yes
+- name: copy backend files
+  become: true
   copy:
-    src: /tmp/workspace/package.json
-    dest: /home/ubuntu/app/
-    owner: ubuntu
+    src: artifact.tar.gz
+    dest: /home/ubuntu/backend
 
-- name: "NPM Install"
+- name: "Unarchive the copied tar file"
+  become: true
+  unarchive:
+    src: artifact.tar.gz
+    dest: /home/ubuntu/backend
+
+- name: "install dependencies."
+  become: true
+  apt:
+    name: ["nodejs", "npm"]
+    state: latest
+    update_cache: yes
+
+- name: "Run pm2"
+  become: true
   shell:
-    cmd: npm install --production
-    chdir: /home/ubuntu/app
-
-- name: "Start backend with pm2"
-  become: yes
-  shell: |
-    cd /home/ubuntu/app
-    pm2 start main.js --name app
-  environment:
-    ENVIRONMENT: production
-    TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_CONNECTION') }}"
-    TYPEORM_MIGRATIONS_DIR: "./migrations"
-    TYPEORM_MIGRATIONS: "./migrations/*.js"
-    TYPEORM_ENTITIES: "./modules/domain/**/*.entity.js"
-    TYPEORM_HOST: "{{ lookup('env', 'TYPEORM_HOST') }}"
-    TYPEORM_PORT: "{{ lookup('env', 'TYPEORM_PORT') }}"
-    TYPEORM_USERNAME: "{{ lookup('env', 'TYPEORM_USERNAME') }}"
-    TYPEORM_PASSWORD: "{{ lookup('env', 'TYPEORM_PASSWORD') }}"
-    TYPEORM_DATABASE: "{{ lookup('env', 'TYPEORM_DATABASE') }}"
+    cmd: "pm2 stop default || pm2 start npm -- start"
+    chdir: /home/ubuntu/backend/
