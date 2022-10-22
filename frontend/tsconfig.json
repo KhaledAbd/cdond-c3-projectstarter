@@ -19,7 +19,10 @@
       "app/*": ["./app/*"],
       "assets/*": ["./assets/*"]
     },
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "typeRoots": [
+      "node_modules/@types"
+    ]
   },
   "exclude": ["dist", "build", "node_modules"]
 }
