@@ -267,6 +267,7 @@ jobs:
           name: Install dependencies
           command: |
             sudo apt-get -qq update 
+            sudo apt-get install -y build-essential
             sudo apt-get install -y -qq tar gzip  
             # sudo apt-get install -y -qq curl
       - aws-cli/setup
