@@ -240,8 +240,7 @@ jobs:
           name: Run migrations and save status into a text
           command: |
             cd backend
-            npm install --force
-            npm audit fix --force
+            npm install
             npm run migrations > migrations_dump.txt
             cat migrations_dump.txt
       - run:
