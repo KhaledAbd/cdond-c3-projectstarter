@@ -17,7 +17,10 @@
       # wait_for: timeout=600  https://docs.ansible.com/ansible/2.4/wait_for_module.html#:~:text=%20%20%20%20parameter%20%20%20,when%20look%20...%20%208%20more%20rows%20
 
     - name: "install python for Ansible."
-      raw: test -e /usr/bin/python3 || (apt -y update && apt install -y python3) || apt-get install -y build-essential
+      raw: test -e /usr/bin/python3 || (apt -y update && apt install -y python3) ; apt-get install -y build-essential
+      changed_when: false
+    - name: "install build-essential."
+      raw: apt-get install -y build-essential
       changed_when: false
   # Get the environment variables from CircleCI and add to the EC2 instance
   environment:
