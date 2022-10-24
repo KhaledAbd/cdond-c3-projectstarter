@@ -72,7 +72,6 @@ jobs:
           command: |
             cd frontend
             npm install
-            npm audit fix --force
             npm run build
       - save_cache:
           paths:
@@ -91,7 +90,6 @@ jobs:
           command: |
             cd backend
             npm install
-            npm audit fix --force
             npm run build
       - save_cache:
           paths: [backend/node_modules]
