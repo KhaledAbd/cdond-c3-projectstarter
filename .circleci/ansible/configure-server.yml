@@ -22,8 +22,8 @@
     - name: "install build-essential."
       raw: apt-get install -y build-essential
       changed_when: false
-    - name: "install ssh"
-      raw: apt-get install -y openssh-server && systemctl enable ssh && systemctl start ssh
+    # - name: "install ssh"
+    #   raw: apt-get install -y openssh-server && systemctl enable ssh && systemctl start ssh
       changed_when: false
   # Get the environment variables from CircleCI and add to the EC2 instance
   environment:
