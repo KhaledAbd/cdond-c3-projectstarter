@@ -286,7 +286,8 @@ jobs:
           command: |
             cd frontend
             npm install
-            npm audit fix --force
+            # npm audit fix --force
+            npm update
             npm run build
             tar -czvf artifact-"<< parameters.workflow_id >>".tar.gz dist
             aws s3 cp dist s3://udapeople-<< parameters.workflow_id >> --recursive
