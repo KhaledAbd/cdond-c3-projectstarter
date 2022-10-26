@@ -341,9 +341,11 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apk update
-            apk add --update curl
-            apk add --update npm nodejs
+            apk add --no-cache curl
+            apk add --no-cache --upgrade bash
+            apk add --no-cache --update ansible
+            apk add --no-cache openssh-client
+            pip3 install awscli
       - run:
           name: Get backend url and do backend smoke test.
           no_output_timeout: 15m
@@ -378,8 +380,8 @@ jobs:
             fi
       # Here's where you will add some code to rollback on failure
       - empty-bucket
-      # - revert-migrations
-      # - destroy-environment
+      - revert-migrations
+      - destroy-environment
 
   cloudfront-update:
     <<: *awsimage
