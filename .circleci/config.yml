@@ -39,7 +39,7 @@ commands:
           name: Revert migrations
           when: on_fail
           command: |
-            SUCCESS=$(curl --insecure  https://kvdb.io/S2pNPJ8pfJRaimqA4VpNHU/migration_<< parameters.workflow_id >>)
+            SUCCESS=$(curl --insecure  https://kvdb.io/Wz7hrCNo6jmZTtV9KQGQRs/migration_<< parameters.workflow_id >>)
             echo $SUCCESS
             if [ "$SUCCESS" -eq 1 ]; then
               echo 'success'
@@ -250,7 +250,7 @@ jobs:
             then
               echo "Migration succeeded"
               # curl --insecure or curl -k
-              curl -k https://kvdb.io/S2pNPJ8pfJRaimqA4VpNHU/migration_<< parameters.workflow_id >>  -d '1'
+              curl -k https://kvdb.io/Wz7hrCNo6jmZTtV9KQGQRs/migration_<< parameters.workflow_id >>  -d '1'
             else 
               echo "Migration failed"
             fi
