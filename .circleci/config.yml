@@ -390,6 +390,8 @@ jobs:
     parameters: *parameter
     steps:
       - checkout
+      - add_ssh_keys:
+          fingerprints: ["6a:c7:b6:b1:01:ba:78:9d:e1:2d:73:65:58:1b:20:53"]
       - run: #Workspace attachment needs tar and gzip which is not in awsimage 
           name: Install tar and gzip.
           command: |
