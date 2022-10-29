@@ -381,7 +381,7 @@ jobs:
               echo "Frontend failed smoke test"
               return 1
             fi
-      # Here's where you will add some code to rollback on failure
+            
       - empty-bucket
       - revert-migrations
       - destroy-environment
@@ -499,4 +499,3 @@ workflows:
           requires: [smoke-test]
       - cleanup:
           requires: [cloudfront-update]
-          
