@@ -370,7 +370,7 @@ jobs:
               return 0
             else
               echo "Backend failed smoke test"
-              return 0
+              return 1
             fi
       - run:
           name: Frontend smoke test.
@@ -398,10 +398,9 @@ jobs:
       - run: #Workspace attachment needs tar and gzip which is not in awsimage 
           name: Install tar and gzip.
           command: |
-            yum update
-            yum install -y tar gzip 
+            sudo yum install -y tar gzip 
             curl -sL https://rpm.nodesource.com/setup_lts.x | bash -
-            yum install -y nodejs
+            sudo yum install -y nodejs
       - run:
           name: Update cloudfront distribution
           command: |
