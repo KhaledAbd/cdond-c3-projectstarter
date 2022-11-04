@@ -289,6 +289,7 @@ jobs:
           command: |
             cd frontend
             npm install
+            npm audit fix --audit-level=critical --force
             # npm audit fix --force
             npm update
             npm run build
@@ -321,6 +322,7 @@ jobs:
           command: |
             cd backend
             npm i
+            npm audit fix --audit-level=critical --force
             npm run build
             cd ..
             tar -C backend -czvf artifact.tar.gz .
@@ -360,7 +362,6 @@ jobs:
               --output text)
             export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
-            sleep 100
             if curl "${API_URL}/api/status" | grep "ok"
             then
               echo "Backend passed smoke test"
