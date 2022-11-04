@@ -399,7 +399,7 @@ jobs:
           name: Install tar and gzip.
           command: |
             yum install -y tar gzip 
-            curl -sL https://rpm.nodesource.com/setup_10.x
+            curl -sL https://rpm.nodesource.com/setup_10.x | bash -
             yum install nodejs
       - run:
           name: Update cloudfront distribution
