@@ -386,7 +386,7 @@ jobs:
               return 1
             fi
             
-    #   - empty-bucket
+      - empty-bucket
       - revert-migrations
       - destroy-environment
 
