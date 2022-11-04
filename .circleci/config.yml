@@ -60,6 +60,7 @@ commands:
           when: on_fail
           command: |
             echo "Emptying S3 bucket: s3://udapeople-<< parameters.workflow_id >>"
+            aws s3 ls s3://udapeople-<< parameters.workflow_id >>
             aws s3 rm s3://udapeople-<< parameters.workflow_id >> --recursive --quiet
 jobs:
   build-frontend:
@@ -396,12 +397,6 @@ jobs:
     parameters: *parameter
     steps:
       - checkout
-      - run: #Workspace attachment needs tar and gzip which is not in awsimage 
-          name: Install tar and gzip.
-          command: |
-            yum install -y tar gzip 
-            curl -sL https://rpm.nodesource.com/setup_lts.x | bash -
-            yum -y install nodejs
       - run:
           name: Update cloudfront distribution
           command: |
