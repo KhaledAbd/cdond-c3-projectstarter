@@ -137,8 +137,8 @@ jobs:
           command: |
             cd frontend
             npm install
-            npm update
             npm audit --audit-level=critical
+            npm update
       # Ensure the "slack/notify" command is the last command in a job to accurately capture the status.
       - slack/notify:
           event: fail
