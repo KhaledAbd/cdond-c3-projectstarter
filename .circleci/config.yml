@@ -178,7 +178,7 @@ jobs:
           command: |
             aws cloudformation deploy \
               --template-file .circleci/files/backend.yml \
-              --tags project=udapeople \
+              --tags project=udapeople-<< parameters.workflow_id >> \
               --stack-name "udapeople-backend-<< parameters.workflow_id >>" \
               --parameter-overrides WorkflowID="<< parameters.workflow_id >>"
       - run:
@@ -186,7 +186,7 @@ jobs:
           command: |
             aws cloudformation deploy \
               --template-file .circleci/files/frontend.yml \
-              --tags project=udapeople \
+              --tags project=udapeople-<< parameters.workflow_id >>\
               --stack-name "udapeople-frontend-<< parameters.workflow_id >>" \
               --parameter-overrides WorkflowID="<< parameters.workflow_id >>"
       - run:
@@ -194,7 +194,7 @@ jobs:
           command: |
             aws ec2 describe-instances \
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
-              --filter "Name=tag:project, Values=udapeople" \
+              --filter "Name=tag:project, Values=udapeople-<< parameters.workflow_id >>" \
               --output text >> .circleci/ansible/inventory.txt
 
       - persist_to_workspace:
@@ -281,7 +281,7 @@ jobs:
           command: |
             export BACKEND_IP=$(aws ec2 describe-instances \
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
-              --filter "Name=tag:project, Values=udapeople" \
+              --filter "Name=tag:project, Values=udapeople-<< parameters.workflow_id >>" \
               --output text)
             export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
@@ -360,7 +360,7 @@ jobs:
           command: |
             export BACKEND_IP=$(aws ec2 describe-instances \
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
-              --filter "Name=tag:project, Values=udapeople" \
+              --filter "Name=tag:project, Values=udapeople-<< parameters.workflow_id >>" \
               --output text)
             export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
@@ -383,10 +383,10 @@ jobs:
               return 0
             else
               echo "Frontend failed smoke test"
-              return 0
+              return 1
             fi
             
-    #  - empty-bucket
+    #   - empty-bucket
       - revert-migrations
       - destroy-environment
 
@@ -412,9 +412,9 @@ jobs:
 
             aws cloudformation deploy \
               --template-file .circleci/files/cloudfront.yml \
-              --stack-name udapeople-cloudfront-stack \
+              --stack-name udapeople-cloudfront-stack-<< parameters.workflow_id >> \
               --parameter-overrides WorkflowID="<< parameters.workflow_id >>" \
-              --tags project=udapeople
+              --tags project=udapeople-<< parameters.workflow_id >>
             
             echo "OldWorkflowID: ${OldWorkflowID}"
             echo "Current WorkflowID: << parameters.workflow_id >>"
