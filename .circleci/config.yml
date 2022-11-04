@@ -398,9 +398,10 @@ jobs:
       - run: #Workspace attachment needs tar and gzip which is not in awsimage 
           name: Install tar and gzip.
           command: |
+            yum update
             yum install -y tar gzip 
-            # curl -sL https://rpm.nodesource.com/setup_lts.x | bash -
-            # yum -y install nodejs
+            curl -sL https://rpm.nodesource.com/setup_lts.x | bash -
+            yum install -y nodejs
       - run:
           name: Update cloudfront distribution
           command: |
