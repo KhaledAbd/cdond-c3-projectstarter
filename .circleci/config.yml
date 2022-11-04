@@ -137,8 +137,7 @@ jobs:
             cd frontend
             npm install
             npm update
-            npm audit fix --audit-level=critical --force
-            # npm audit --audit-level=critical
+            npm audit --audit-level=critical
       # Ensure the "slack/notify" command is the last command in a job to accurately capture the status.
       - slack/notify:
           event: fail
@@ -155,7 +154,7 @@ jobs:
           command: |
             cd backend
             npm install 
-            npm audit fix --audit-level=critical --force
+            npm audit fix --audit-level=critical
       - slack/notify:
           channel: $SLACK_DEFAULT_CHANNEL
           event: fail
@@ -360,7 +359,6 @@ jobs:
               --output text)
             export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
-            sleep 100
             if curl "${API_URL}/api/status" | grep "ok"
             then
               echo "Backend passed smoke test"
