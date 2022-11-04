@@ -28,7 +28,6 @@ commands:
           when: on_fail
           command: |
             echo "Destroying environment: << parameters.workflow_id >> "
-            aws s3 ls s3://udapeople-<< parameters.workflow_id >> 
             aws s3 rm s3://udapeople-<< parameters.workflow_id >> --recursive
             aws cloudformation delete-stack --stack-name udapeople-backend-<< parameters.workflow_id >>
             aws cloudformation delete-stack --stack-name udapeople-frontend-<< parameters.workflow_id >>
@@ -139,7 +138,7 @@ jobs:
             npm install
             npm audit fix --audit-level=critical --force
             npm audit --audit-level=critical
-      # Ensure the "slack/notify" command is the last command in a job to accurately capture the status.
+
       - slack/notify:
           event: fail
 
@@ -154,7 +153,7 @@ jobs:
           name: Scan backend dependencies
           command: |
             cd backend
-            npm install 
+            npm install
             npm audit fix --audit-level=critical --force
             npm audit --audit-level=critical
 
@@ -291,8 +290,8 @@ jobs:
           command: |
             cd frontend
             npm install
+            # npm audit fix --force
             npm update
-            npm audit --audit-level=critical
             npm run build
             tar -czvf artifact-"<< parameters.workflow_id >>".tar.gz dist
             aws s3 cp dist s3://udapeople-<< parameters.workflow_id >> --recursive
@@ -323,8 +322,6 @@ jobs:
           command: |
             cd backend
             npm i
-            npm update
-            npm audit --audit-level=critical
             npm run build
             cd ..
             tar -C backend -czvf artifact.tar.gz .
@@ -364,6 +361,7 @@ jobs:
               --output text)
             export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
+            sleep 100
             if curl "${API_URL}/api/status" | grep "ok"
             then
               echo "Backend passed smoke test"
