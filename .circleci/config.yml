@@ -61,6 +61,7 @@ commands:
           command: |
             echo "Emptying S3 bucket: s3://udapeople-<< parameters.workflow_id >>"
             aws s3 rm s3://udapeople-<< parameters.workflow_id >> --recursive --quiet
+            
 jobs:
   build-frontend:
     <<: *nodeimage
